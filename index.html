@@ -6,160 +6,224 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* ================== GLOBAL ================== */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family: 'Poppins', sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif}
 body{
-  height:100vh;
-  background: radial-gradient(circle at top, #1a0025, #000);
-  overflow-x:hidden;
+  background:radial-gradient(circle at top,#20002c,#000);
   color:#fff;
+  overflow-x:hidden;
   perspective:1200px;
-}
-
-/* ================== HEARTS ================== */
-.heart{
-  position:fixed;
-  width:15px;
-  height:15px;
-  background:red;
-  transform:rotate(45deg);
-  animation:float 8s infinite;
-}
-.heart::before,
-.heart::after{
-  content:"";
-  width:15px;
-  height:15px;
-  background:red;
-  border-radius:50%;
-  position:absolute;
-}
-.heart::before{ top:-7px; left:0; }
-.heart::after{ left:-7px; top:0; }
-
-@keyframes float{
-  0%{ transform:translateY(100vh) rotate(45deg); opacity:0; }
-  30%{ opacity:1; }
-  100%{ transform:translateY(-10vh) rotate(45deg); opacity:0; }
-}
-
-/* ================== 3D CARD ================== */
-.card{
-  width:90%;
-  max-width:420px;
-  margin:80px auto;
-  padding:30px;
-  background:linear-gradient(135deg,#ff0080,#7928ca);
-  border-radius:25px;
-  box-shadow:0 30px 80px rgba(255,0,150,.5);
-  transform-style:preserve-3d;
-  animation:cardRotate 6s infinite alternate;
   text-align:center;
 }
 
-@keyframes cardRotate{
-  from{ transform:rotateY(-10deg) rotateX(5deg); }
-  to{ transform:rotateY(10deg) rotateX(-5deg); }
+/* HEARTS */
+.heart{
+  position:fixed;width:15px;height:15px;background:red;
+  transform:rotate(45deg);
+  animation:float 10s infinite;
+}
+.heart:before,.heart:after{
+  content:"";width:15px;height:15px;background:red;
+  border-radius:50%;position:absolute
+}
+.heart:before{top:-7px}
+.heart:after{left:-7px}
+@keyframes float{
+  0%{transform:translateY(110vh) rotate(45deg);opacity:0}
+  30%{opacity:1}
+  100%{transform:translateY(-10vh) rotate(45deg);opacity:0}
 }
 
-/* ================== TEXT ================== */
-h1{
-  font-size:2.2rem;
-  text-shadow:0 0 20px #fff;
-}
-h2{
-  margin-top:10px;
-  font-size:1.2rem;
-}
-.glow{
-  color:#fff;
-  text-shadow:0 0 10px #fff,0 0 30px pink;
-}
-
-/* ================== SECTIONS ================== */
-.section{
-  margin-top:30px;
-  padding:20px;
-  background:rgba(255,255,255,.12);
-  border-radius:15px;
-  backdrop-filter:blur(10px);
-  transform:translateZ(40px);
-}
-
-.quote{
-  font-style:italic;
-  margin:12px 0;
-}
-
-/* ================== FOOTER ================== */
-.footer{
+/* FLYING NAME */
+#flying{
+  font-size:2.5rem;
   margin-top:20px;
-  font-size:.9rem;
-  opacity:.8;
+  animation:fly 4s infinite alternate;
+  text-shadow:0 0 30px pink;
 }
+@keyframes fly{
+  from{transform:translateY(0)}
+  to{transform:translateY(-20px)}
+}
+
+/* CARD */
+.card{
+  width:90%;max-width:430px;
+  margin:40px auto;padding:30px;
+  background:linear-gradient(135deg,#ff0080,#7928ca);
+  border-radius:25px;
+  box-shadow:0 40px 100px rgba(255,0,150,.6);
+  transform-style:preserve-3d;
+  animation:rotate 6s infinite alternate;
+}
+@keyframes rotate{
+  from{transform:rotateY(-10deg)}
+  to{transform:rotateY(10deg)}
+}
+
+.section{
+  margin-top:25px;padding:20px;
+  background:rgba(255,255,255,.15);
+  border-radius:15px
+}
+.quote{font-style:italic;margin:8px 0}
+
+/* SLIDER */
+.slider img{width:100%;border-radius:15px;display:none}
+
+/* BUTTON */
+button{
+  margin:10px;
+  padding:10px 20px;
+  border:none;
+  border-radius:20px;
+  background:#fff;
+  font-weight:bold;
+  cursor:pointer;
+}
+button:hover{transform:scale(1.05)}
+
+/* CAKE */
+#cake{
+  font-size:4rem;
+  margin-top:10px;
+  display:none;
+  animation:bounce 1s infinite;
+}
+@keyframes bounce{
+  50%{transform:translateY(-10px)}
+}
+
+/* FIREWORKS */
+.firework{
+  position:fixed;
+  width:6px;height:6px;
+  background:gold;
+  border-radius:50%;
+  animation:explode 1.5s infinite;
+}
+@keyframes explode{
+  from{transform:scale(1);opacity:1}
+  to{transform:scale(6);opacity:0}
+}
+
+/* SECRET */
+#secret{display:none;margin-top:10px;font-style:italic}
 </style>
 </head>
 
 <body>
 
-<!-- Floating Hearts -->
+<!-- MUSIC -->
+<audio id="music" autoplay loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+<button onclick="document.getElementById('music').play()">🎵 Play Music</button>
+
+<div id="flying">🎉 Upasna Maurya 🎉</div>
+
+<div class="card">
+<h1>Happy Birthday ❤️</h1>
+<h2>Future Doctor 🩺</h2>
+
+<div id="countdown"></div>
+<div id="cake">🎂</div>
+
+<div class="section">
+<p>
+Your dreams are beautiful, your heart is pure, and your future is bright.
+I believe in you today and always ❤️
+</p>
+</div>
+
+<div class="section slider">
+<img src="images/1.jpg">
+<img src="images/2.jpg">
+<img src="images/3.jpg">
+</div>
+
+<div class="section">
+<p class="quote">“You are my favorite miracle.”</p>
+<p class="quote">“One day you’ll heal the world.”</p>
+<p class="quote">“I’m proud of you every day.”</p>
+</div>
+
+<button onclick="cutCake()">🎂 Cut Cake</button>
+<button onclick="showSecret()">💌 Secret</button>
+<button onclick="proposal()">💍 Promise</button>
+<button onclick="share()">📱 Share</button>
+
+<div id="secret">
+I promise to support you, respect you, and love you always ❤️
+</div>
+
+<p style="margin-top:15px">Made with ❤️ by Sahil</p>
+</div>
+
 <script>
-for(let i=0;i<25;i++){
+/* HEARTS */
+for(let i=0;i<35;i++){
   let h=document.createElement("div");
   h.className="heart";
   h.style.left=Math.random()*100+"vw";
   h.style.animationDelay=Math.random()*8+"s";
-  h.style.opacity=Math.random();
   document.body.appendChild(h);
 }
+
+/* SLIDER */
+let i=0;
+const imgs=document.querySelectorAll(".slider img");
+setInterval(()=>{
+  imgs.forEach(img=>img.style.display="none");
+  imgs[i].style.display="block";
+  i=(i+1)%imgs.length;
+},2500);
+
+/* COUNTDOWN + FIREWORKS */
+const bday=new Date("Jan 22, 2026 00:00:00").getTime();
+setInterval(()=>{
+  let d=bday-new Date().getTime();
+  if(d<=0){
+    document.getElementById("countdown").innerHTML="🎉 Today is the Day! 🎉";
+    document.getElementById("cake").style.display="block";
+    fireworks();
+  }else{
+    document.getElementById("countdown").innerHTML=
+    "⏳ Birthday in "+Math.floor(d/(1000*60*60*24))+" days";
+  }
+},1000);
+
+/* CAKE */
+function cutCake(){
+  alert("🎂 Cake Cut! Make a Wish ❤️");
+}
+
+/* SECRET */
+function showSecret(){
+  document.getElementById("secret").style.display="block";
+}
+
+/* PROPOSAL */
+function proposal(){
+  alert("💍 I promise to stand by you forever ❤️");
+}
+
+/* SHARE */
+function share(){
+  window.open("https://wa.me/?text=Happy Birthday Upasna ❤️🎉","_blank");
+}
+
+/* FIREWORKS */
+function fireworks(){
+  for(let i=0;i<20;i++){
+    let f=document.createElement("div");
+    f.className="firework";
+    f.style.left=Math.random()*100+"vw";
+    f.style.top=Math.random()*100+"vh";
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),1500);
+  }
+}
 </script>
-
-<!-- 3D Birthday Card -->
-<div class="card">
-  <h1 class="glow">🎉 Happy Birthday 🎉</h1>
-  <h2 class="glow">Upasna Maurya</h2>
-  <p class="glow">✨ Future Doctor ✨</p>
-
-  <div class="section">
-    <h3>❤️ From My Heart</h3>
-    <p>
-      On this special day, I just want you to know how proud I am of you.
-      Your dedication, kindness, and strength inspire me every single day.
-    </p>
-  </div>
-
-  <div class="section">
-    <h3>💖 Love Quotes</h3>
-    <p class="quote">“I didn’t fall in love with you, I walked into love with you.”</p>
-    <p class="quote">“You are my today and all of my tomorrows.”</p>
-    <p class="quote">“In a world full of chaos, you are my peace.”</p>
-  </div>
-
-  <div class="section">
-    <h3>🩺 For the Future Doctor</h3>
-    <p class="quote">“Dream big, work hard, stay humble.”</p>
-    <p class="quote">“One day you’ll heal many lives — never forget how special you are.”</p>
-    <p class="quote">“Your white coat will carry not just knowledge, but compassion.”</p>
-  </div>
-
-  <div class="section">
-    <h3>🌟 My Wish For You</h3>
-    <p>
-      May your life be filled with success, happiness, love,
-      and endless smiles.  
-      I’ll always be by your side, cheering for you ❤️
-    </p>
-  </div>
-
-  <div class="footer">
-    Made with ❤️ by Sahil
-  </div>
-</div>
 
 </body>
 </html>
